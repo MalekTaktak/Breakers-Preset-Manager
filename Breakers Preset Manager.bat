@@ -39,14 +39,16 @@ set /p "n=Please type the number of the preset you'd like to load: "
 set preset=!filename[%n%]!
 echo %preset% selected.
 if exist "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %preset%" (choice /C:yn /M "Would you like to save your current preset folder?") else (GOTO :NOTFOUND)
-if %ERRORLEVEL% EQU 1 (set /p "savename=Please type a name for your current preset to save:" ) else (GOTO :LOADPROCESS)
+if %ERRORLEVEL% EQU 1 (set /p "savename=Please type a name for your current preset to save:") else (GOTO :LOADPROCESS)
 set %ERRORLEVEL%= 0
-if defined savename if exist "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %savename%" (choice /C:yn /M "Would you like to overwrite the existing preset %savename% ?")
-if %ERRORLEVEL% EQU 1 (xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - temp" /c /h /e /i /Y && rmdir /q /s "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" &&  xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %preset%" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" /c /h /e /i /Y && rmdir /q /s "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %preset%" && xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - temp" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %savename%" /c /h /e /i /Y && rmdir /q /s "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - temp" && msg * "Saved current preset to DRAGON BALL THE BREAKERS - %savename%." && exit) else (if %ERRORLEVEL% EQU 2 (xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %savename% (Copy)" /c /h /e /i /Y  && msg * "Saved current preset to DRAGON BALL THE BREAKERS - %savename% (Copy)."))
+if defined savename if exist "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %savename%" (choice /C:yn /M "Would you like to overwrite the existing preset %savename% ?" )
+msg * %ERRORLEVEL%
+if %ERRORLEVEL% EQU 1 (xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - temp" /c /h /e /i /Y && rmdir /q /s "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" &&  xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %preset%" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" /c /h /e /i /Y && xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - temp" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %savename%" /c /h /e /i /Y && rmdir /q /s "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - temp" && if  && msg * "Loaded the %preset% preset and saved current preset to DRAGON BALL THE BREAKERS - %savename%. " && exit)
+if %ERRORLEVEL% EQU 2 (msg * Saving to %savename% (copy). && xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %savename% (Copy)" /c /h /e /i /Y ) 
 :LOADPROCESS
 rmdir /q /s "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" 
 xcopy "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS - %preset%" "%LocalAppData%\BANDAI NAMCO ENTERTAINMENT\DRAGON BALL THE BREAKERS" /c /h /e /i /Y
-if defined savename (msg * "Preset "DRAGON BALL THE BREAKERS - %preset%" loaded successfully, old preset folder saved to "DRAGON BALL THE BREAKERS - %savename%".") else (msg * "Preset "DRAGON BALL THE BREAKERS - %preset%" loaded successfully.") 
+if defined savename (msg * Preset %preset%" loaded successfully, old preset folder saved to  %savename%. ) else ( msg * Preset "DRAGON BALL THE BREAKERS - %preset%" loaded successfully. ) 
 exit
 :DELETE
 set /p "presetd= Type the name of the preset which you'd like to be deleted. WARNING: THE FOLDER WILL BE GONE : " 
